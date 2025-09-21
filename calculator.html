@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <title>Age & Arithmetic Calculator</title>
+  <link rel="stylesheet" href="calculator.css" />
+</head>
+<body id="body">
+
+  <!-- Age Calculator -->
+  <div class="calculator">
+    <h2 class="head">Age Calculator</h2>
+    <label for="birthdate" >Enter Birth Date:</label>
+    <input type="date" id="birthdate" />
+    <button   class="button" onclick="calculateAge()">Calculate Age</button>
+    <div id="ageResult" class="result"></div>
+  </div>
+
+  <!-- Arithmetic Calculator -->
+  <div class="calculator">
+    <h2 class="head">Arithmetic Calculator</h2>
+    <input type="number" id="num1" placeholder="Enter first number" />
+    <input type="number" id="num2" placeholder="Enter second number" />
+    <select id="operation">
+      <option value="add">Addition (+)</option>
+      <option value="subtract">Subtraction (-)</option>
+      <option value="multiply">Multiplication (×)</option>
+      <option value="divide">Division (÷)</option>
+    </select>
+    <button  class="button" onclick="calculateArithmetic()">Calculate</button>
+    <div id="arithResult" class="result"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      const birthDate = new Date(document.getElementById('birthdate').value);
+      const today = new Date();
+      
+      if (isNaN(birthDate.getTime())) {
+        document.getElementById('ageResult').textContent = "Please enter a valid date.";
+        return;
+      }
+      
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      document.getElementById('ageResult').textContent = `You are ${age} years old.`;
+    }
+
+    function calculateArithmetic() {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const operation = document.getElementById('operation').value;
+      
+      if (isNaN(num1) || isNaN(num2)) {
+        document.getElementById('arithResult').textContent = "Please enter valid numbers.";
+        return;
+      }
+      
+      let result;
+      switch(operation) {
+        case 'add':
+          result = num1 + num2;
+          break;
+        case 'subtract':
+          result = num1 - num2;
+          break;
+        case 'multiply':
+          result = num1 * num2;
+          break;
+        case 'divide':
+          if (num2 === 0) {
+            result = "Cannot divide by zero.";
+          } else {
+            result = num1 / num2;
+          }
+          break;
+        default:
+          result = "Invalid operation.";
+      }
+      
+      document.getElementById('arithResult').textContent = `Result: ${result}`;
+    }
+  </script>
+
+</body>
+</html>
